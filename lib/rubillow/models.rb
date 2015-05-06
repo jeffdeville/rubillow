@@ -10,20 +10,20 @@ module Rubillow
 
       # @return [String] the raw XML content from the service
       attr_accessor :xml
-      
+
       # @private
       # @return [Nokogiri::XML::Reader] xml parser
       attr_accessor :parser
-      
+
       # @return [String] response message
       attr_accessor :message
-      
+
       # @return [Integer] response code
       attr_accessor :code
-      
+
       # @return [Boolean] nearing API's daily request limit
       attr_accessor :near_limit
-    
+
       # @private
       # Initialize the model
       #
@@ -38,25 +38,25 @@ module Rubillow
           @message = 'Error connecting to remote service.'
         end
       end
-    
+
       # Was the request successful?
       # @return [Boolean] +true+ on successful request
       def success?
         @code.to_i == 0
       end
-    
+
       protected
-      
+
       # @private
       # Parses the xml content
       def parse
         @message = @parser.xpath('//message/text').text
         @code = @parser.xpath('//message/code').text.to_i
-        
+
         limit = @parser.xpath('//message/limit-warning')
         @near_limit = !limit.empty? && limit.text.downcase == "true"
       end
-      
+
       def empty?(elm)
         elm.respond_to?(:empty?) ? elm.empty? : !elm
       end

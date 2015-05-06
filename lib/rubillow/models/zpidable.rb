@@ -4,10 +4,7 @@ module Rubillow
     module Zpidable
       # @return [String] ZPID of property
       attr_accessor :zpid
-      
-      protected
-      
-      # @private
+
       def extract_zpid(xml)
         # TODO: clean up this logic
         if !xml.xpath('//response/zpid').empty?
@@ -17,7 +14,7 @@ module Rubillow
         else
           selector = '//zpid'
         end
-        
+
         @zpid = xml.xpath(selector).first.text
       end
     end
